@@ -35,7 +35,8 @@ if (strpos($message, "/setreminder") === 0)
         unlink("./reminders/" . $chatId);
     }
     $interval = substr($message, 13);
-    if(is_numeric($interval))
+    $interval = intval($interval);
+    if($interval > 0)
     {
         sendingMessage($botId, $chatId, "Your new reminder is set to: " . $interval . " Minutes \xF0\x9F\x91\x8D");
         file_put_contents("./reminders/" . $chatId, $interval); 
