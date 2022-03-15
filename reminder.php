@@ -1,9 +1,7 @@
 <?php
-    //drinkmorewaterreminderbot
-    //HTTP API TOKEN: 5130453203:AAHDdkQ3yAdp9mtahBX2qzC3zPZ_1q8jBL0
-    //https://api.telegram.org/bot5130453203:AAHDdkQ3yAdp9mtahBX2qzC3zPZ_1q8jBL0/
+    include("./scripts/conf.php");
     $message = "It's time for a drink! \xF0\x9F\x8D\xB9";
-    $url = 'https://api.telegram.org/bot5130453203:AAHDdkQ3yAdp9mtahBX2qzC3zPZ_1q8jBL0/sendMessage?text=';
+    $url = "https://api.telegram.org/bot" . $botId . "/sendMessage?text=";
     $directory = "./reminders/*";
     foreach(glob($directory) as $file)
     {

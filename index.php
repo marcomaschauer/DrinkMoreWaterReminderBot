@@ -1,15 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DrinkMoreWaterReminderBot</title>
+    <link rel="stylesheet" href="./style/style.css">
+</head>
+<body>
+    <h1>Welcome to the DrinkMoreWaterReminderBot</h1>
+    <img src="./image/telegram_bot.svg"/>
+    <p>Scan the QR-Code above with your Telegram App to get started!</p>
+</body>
+</html>
 <?php
-//drinkmorewaterreminderbot
-//HTTP API TOKEN: 5130453203:AAHDdkQ3yAdp9mtahBX2qzC3zPZ_1q8jBL0
-//https://api.telegram.org/bot5130453203:AAHDdkQ3yAdp9mtahBX2qzC3zPZ_1q8jBL0/getUpdates
-//https://api.telegram.org/bot5130453203:AAHDdkQ3yAdp9mtahBX2qzC3zPZ_1q8jBL0/close
-
+error_reporting(0);
+include("./scripts/conf.php");
 function sendingMessage($bot_id, $chat_id, $message)
 {
     $url = 'https://api.telegram.org/bot' . $bot_id . '/sendMessage?text='. $message . '&chat_id=' . $chat_id;
     file_get_contents($url);
 }
-$botId = "5130453203:AAHDdkQ3yAdp9mtahBX2qzC3zPZ_1q8jBL0";
 $update = json_decode(file_get_contents("php://input"), TRUE); //Input from Webhook
 $chatId = $update["message"]["chat"]["id"];
 $message = $update["message"]["text"];
