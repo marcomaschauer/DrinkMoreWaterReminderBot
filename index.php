@@ -19,11 +19,15 @@ if (str_contains($message, "/start"))
 }
 if (strpos($message, "/setreminder") === 0)
 {
+    if(file_exists("./reminders/" . $chatId))
+    {
+        unlink("./reminders/" . $chatId);
+    }
     $interval = substr($message, 13);
     if(is_numeric($interval))
     {
         sendingMessage($botId, $chatId, "Your new reminder is set to: " . $interval . " Minutes \xF0\x9F\x91\x8D");
-        file_put_contents("./reminders/" . $chatId, $interval); //creates file
+        file_put_contents("./reminders/" . $chatId, $interval); 
     }
     else
     {
