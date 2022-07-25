@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="./style/style.css">
 </head>
 <body>
-    <h1>Welcome to the DrinkMoreWaterReminderBot</h1>
+    <h1>Welcome to the Drink More Water Reminder Bot</h1>
     <img src="./image/telegram_bot.svg"/>
     <p>Scan the QR-Code above with your Telegram App to get started!</p>
 </body>
