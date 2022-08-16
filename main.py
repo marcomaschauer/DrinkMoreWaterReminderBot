@@ -4,6 +4,7 @@ from aiogram import Bot, Dispatcher, executor, types
 from aiogram.contrib.fsm_storage.memory import MemoryStorage
 from aiogram.dispatcher import FSMContext
 from aiogram.dispatcher.filters.state import State, StatesGroup
+import datetime
 
 bot = Bot(token='5333737571:AAGWsPKqvKQM8TnHIgvfvuknNDOCHyCTXOY')
 storage = MemoryStorage() #set storage to save data in memory https://stackoverflow.com/questions/69846020/aiogram-waiting-user-reply
@@ -55,12 +56,18 @@ async def setreminder(message: types.Message):
 
 @dp.message_handler(state=Form.remindtime) #Form for Timespan
 async def process_name(message: types.Message, state: FSMContext):
-    file_path = "./reminders/" + str(message.chat.id)
-    file = open(file_path, "a")
-    file.write("\n")
-    file.write(f"{message.text}")
-    file.close()
-    await message.answer(f"Your timespan in which we remind you is set to: {message.text} 👍")
-    await state.finish()
+    try:
+        timespan = message.text.split("-")
+        format = "%H:%M"
+        begintime = datetime.datetime.strptime(timespan[0], format)
+        endtime = datetime.datetime.strptime(timespan[1], format)
+        file_path = "./reminders/" + str(message.chat.id)
+        file = open(file_path, "a")
+        file.write(f"\n{begintime} \n{endtime}")
+        file.close()
+        await message.answer(f"Your timespan in which we remind you is set between {begintime} and {endtime} 👍")
+        await state.finish()
+    except:
+        await message.answer(f"Sorry, I diden't get that. 😬 Make sure you give me a timespan like 08:00-20:00 :")
 
 executor.start_polling(dp)
