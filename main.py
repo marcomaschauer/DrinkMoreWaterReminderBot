@@ -1,10 +1,10 @@
 import os.path
-from typing import List
 from aiogram import Bot, Dispatcher, executor, types
 from aiogram.contrib.fsm_storage.memory import MemoryStorage
 from aiogram.dispatcher import FSMContext
 from aiogram.dispatcher.filters.state import State, StatesGroup
 import datetime
+import json
 
 bot = Bot(token='5333737571:AAGWsPKqvKQM8TnHIgvfvuknNDOCHyCTXOY')
 storage = MemoryStorage() #set storage to save data in memory https://stackoverflow.com/questions/69846020/aiogram-waiting-user-reply
@@ -27,10 +27,11 @@ async def setreminder(message: types.Message):
 async def process_name(message: types.Message, state: FSMContext):
     try:
         int(message.text)
-        file_path = "./reminders/" + str(message.chat.id)
-        file = open(file_path, "w")
-        file.write(f"{message.text}")
-        file.close()
+        dictionary = {"reminder": message.text, "begintime": "08:00", "endtime": "20:00" }
+        user_config = json.dumps(dictionary, indent=3)
+        file_path = "./reminders/" + str(message.chat.id) + ".json"
+        with open(file_path, "w") as file:
+            file.write(user_config)
         await message.answer(f"Your new reminder is set to: {message.text} Minutes 👍")
         await state.finish() #close Form (deletes value from memory)
     except:
@@ -38,7 +39,7 @@ async def process_name(message: types.Message, state: FSMContext):
 
 @dp.message_handler(commands=['deletereminder'])
 async def welcome(message: types.Message):
-    file_path = "./reminders/" + str(message.chat.id)
+    file_path = "./reminders/" + str(message.chat.id) + ".json"
     if (os.path.exists(file_path)):
         os.remove(file_path)
         await message.answer("Your current reminder has been deleted. You won't get any new messages from now on 😢")
@@ -47,7 +48,7 @@ async def welcome(message: types.Message):
 
 @dp.message_handler(commands=['setremindtime'])
 async def setreminder(message: types.Message):
-    file_path = "./reminders/" + str(message.chat.id)
+    file_path = "./reminders/" + str(message.chat.id) + ".json"
     if (os.path.exists(file_path)):
         await Form.remindtime.set() #set remind time (waiting for user input)
         await message.answer("Give me a timespan like 08:00-20:00 :")
@@ -59,15 +60,19 @@ async def process_name(message: types.Message, state: FSMContext):
     try:
         timespan = message.text.split("-")
         format = "%H:%M"
-        begintime = datetime.datetime.strptime(timespan[0], format)
-        endtime = datetime.datetime.strptime(timespan[1], format)
-        file_path = "./reminders/" + str(message.chat.id)
-        file = open(file_path, "a")
-        file.write(f"\n{begintime} \n{endtime}")
-        file.close()
+        begintime = datetime.datetime.strptime(timespan[0], format).time()
+        endtime = datetime.datetime.strptime(timespan[1], format).time()
+        file_path = "./reminders/" + str(message.chat.id) + ".json"
+        with open(file_path, "r") as file:
+            user_config = json.load(file)
+            user_config["begintime"] = str(begintime)
+            user_config["endtime"] = str(endtime)
+            user_config = json.dumps(user_config, indent=3)
+        with open(file_path, "w") as file:
+            file.write(user_config)
         await message.answer(f"Your timespan in which we remind you is set between {begintime} and {endtime} 👍")
         await state.finish()
     except:
-        await message.answer(f"Sorry, I diden't get that. 😬 Make sure you give me a timespan like 08:00-20:00 :")
+       await message.answer(f"Sorry, I diden't get that. 😬 Make sure you give me a timespan like 08:00-20:00 :")
 
 executor.start_polling(dp)
