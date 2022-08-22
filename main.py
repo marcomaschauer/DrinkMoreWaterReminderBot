@@ -26,14 +26,16 @@ async def setreminder(message: types.Message):
 @dp.message_handler(state=Form.interval) #Form for interval
 async def process_name(message: types.Message, state: FSMContext):
     try:
-        int(message.text)
-        dictionary = {"reminder": message.text, "begintime": "08:00", "endtime": "20:00" }
-        user_config = json.dumps(dictionary, indent=3)
-        file_path = "./reminders/" + str(message.chat.id) + ".json"
-        with open(file_path, "w") as file:
-            file.write(user_config)
-        await message.answer(f"Your new reminder is set to: {message.text} Minutes 👍")
-        await state.finish() #close Form (deletes value from memory)
+        if(int(message.text) > 0):
+            dictionary = {"reminder": message.text, "begintime": "08:00", "endtime": "20:00" }
+            user_config = json.dumps(dictionary, indent=3)
+            file_path = "./reminders/" + str(message.chat.id) + ".json"
+            with open(file_path, "w") as file:
+                file.write(user_config)
+            await message.answer(f"Your new reminder is set to: {message.text} Minutes 👍")
+            await state.finish() #close Form (deletes value from memory)
+        else:
+            await message.answer(f"Error: Interval must be greater than 0")
     except:
         await message.answer(f"Sorry, I diden't get that. 😬 Make sure you give me a whole Number like 60. This will set a reminder for 60 minutes.")
 
