@@ -61,9 +61,8 @@ async def setreminder(message: types.Message):
 async def process_name(message: types.Message, state: FSMContext):
     try:
         timespan = message.text.split("-")
-        format = "%H:%M"
-        begintime = datetime.datetime.strptime(timespan[0], format).time()
-        endtime = datetime.datetime.strptime(timespan[1], format).time()
+        begintime = datetime.datetime.strptime(timespan[0], "%H:%M").time()
+        endtime = datetime.datetime.strptime(timespan[1], "%H:%M").time()
         file_path = "./reminders/" + str(message.chat.id) + ".json"
         with open(file_path, "r") as file:
             user_config = json.load(file)

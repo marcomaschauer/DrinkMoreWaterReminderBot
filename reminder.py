@@ -16,11 +16,19 @@ def main():
             user_config = json.load(file)
             file.close
             interval = int(user_config["reminder"])
-            begin_time = user_config["begintime"]
-            end_time = user_config["endtime"]
-            since_time = datetime.now() - datetime.fromtimestamp(file_stats.st_ctime)
-            if(int((since_time / timedelta(minutes=1)) % interval) == 0):
-                #send_message(chatID ,message)
-                requests.get(url + f"&chat_id={chatID}")
+            begin_time = datetime.datetime.strptime(user_config["begintime"], "%H:%M").time()
+            end_time = datetime.datetime.strptime(user_config["endtime"], "%H:%M").time()
+            if(time_in_range(begin_time, end_time, datetime.now())):
+                since_time = datetime.now() - datetime.fromtimestamp(file_stats.st_ctime)
+                if(int((since_time / timedelta(minutes=1)) % interval) == 0):
+                    requests.get(url + f"&chat_id={chatID}")
         time.sleep(60)
+
+def time_in_range(start, end, x):
+    """Return true if x is in the range [start, end]"""
+    if start <= end:
+        return start <= x <= end
+    else:
+        return start <= x or x <= end
+
 main()
