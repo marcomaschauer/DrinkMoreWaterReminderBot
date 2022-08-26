@@ -25,11 +25,20 @@ async def setreminder(message: types.Message):
 
 @dp.message_handler(state=Form.interval) #Form for interval
 async def process_name(message: types.Message, state: FSMContext):
+    file_path = "./reminders/" + str(message.chat.id) + ".json"
     try:
-        if(int(message.text) > 0):
+        if(os.path.exists(file_path) & int(message.text) > 0):
+            with open(file_path, "r") as file:
+                user_config = json.load(file)
+            user_config["reminder"] = str(message.text)
+            user_config = json.dumps(user_config, indent=3)
+            with open(file_path, "w") as file:
+                file.write(user_config)
+            await message.answer(f"Your new reminder is set to: {message.text} Minutes 👍")
+            await state.finish() #close Form (deletes value from memory)
+        elif(int(message.text) > 0):
             dictionary = {"reminder": message.text, "begintime": "08:00", "endtime": "20:00" }
             user_config = json.dumps(dictionary, indent=3)
-            file_path = "./reminders/" + str(message.chat.id) + ".json"
             with open(file_path, "w") as file:
                 file.write(user_config)
             await message.answer(f"Your new reminder is set to: {message.text} Minutes 👍")
@@ -74,6 +83,6 @@ async def process_name(message: types.Message, state: FSMContext):
         await message.answer(f"Your timespan in which we remind you is set between {begintime} and {endtime} 👍")
         await state.finish()
     except:
-       await message.answer(f"Sorry, I diden't get that. 😬 Make sure you give me a timespan like 08:00-20:00 :")
+       await message.answer(f"Sorry, I diden't get that. 😬 Make sure you give me a valid timespan like 08:00-20:00 :")
 
 executor.start_polling(dp)

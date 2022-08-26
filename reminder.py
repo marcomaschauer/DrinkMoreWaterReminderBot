@@ -16,9 +16,9 @@ def main():
             user_config = json.load(file)
             file.close
             interval = int(user_config["reminder"])
-            begin_time = datetime.datetime.strptime(user_config["begintime"], "%H:%M").time()
-            end_time = datetime.datetime.strptime(user_config["endtime"], "%H:%M").time()
-            if(time_in_range(begin_time, end_time, datetime.now())):
+            begin_time = datetime.strptime(user_config["begintime"], "%H:%M:%S").time()
+            end_time = datetime.strptime(user_config["endtime"], "%H:%M:%S").time()
+            if(time_in_range(begin_time, end_time, datetime.now().time())):
                 since_time = datetime.now() - datetime.fromtimestamp(file_stats.st_ctime)
                 if(int((since_time / timedelta(minutes=1)) % interval) == 0):
                     requests.get(url + f"&chat_id={chatID}")
