@@ -2,9 +2,11 @@ FROM python
 
 RUN pip install --upgrade pip
 RUN pip install aiogram
+RUN pip install datetime
+RUN pip install requests
 
 COPY ./ ./ 
 
-ENTRYPOINT [ "/bin/bash", "-l", "-c" ]
+ENTRYPOINT [ "python3" ]
 
-CMD ["python3", "./main.py"]
+CMD ["reminder.py"]
