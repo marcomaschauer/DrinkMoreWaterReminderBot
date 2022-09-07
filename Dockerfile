@@ -1,4 +1,5 @@
 FROM python
+WORKDIR /usr/drinkmorewaterbot
 
 RUN pip install --upgrade pip
 RUN pip install aiogram
