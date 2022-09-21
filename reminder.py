@@ -1,4 +1,3 @@
-from importlib.metadata import requires
 import os, json, time, requests
 from datetime import datetime, timedelta
 
