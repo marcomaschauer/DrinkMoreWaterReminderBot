@@ -1,8 +1,13 @@
 import os, json, time, requests
 from datetime import datetime, timedelta
 
+def load_config():
+    with open("./config.json", "r") as file:
+        config = json.load(file)
+    return config["debug_token"]
+
 def main():
-    token='5333737571:AAGWsPKqvKQM8TnHIgvfvuknNDOCHyCTXOY'
+    token=load_config()
     message = "It's time for a drink! 🍹"
     url = f"https://api.telegram.org/bot{token}/sendMessage?text={message}"
     directory = os.path.relpath("reminders/")

@@ -6,7 +6,12 @@ from aiogram.dispatcher.filters.state import State, StatesGroup
 import datetime
 import json
 
-bot = Bot(token='5333737571:AAGWsPKqvKQM8TnHIgvfvuknNDOCHyCTXOY')
+def load_config():
+    with open("./config.json", "r") as file:
+        config = json.load(file)
+    return config["debug_token"]
+
+bot = Bot(token=load_config())
 storage = MemoryStorage() #set storage to save data in memory https://stackoverflow.com/questions/69846020/aiogram-waiting-user-reply
 dp = Dispatcher(bot, storage=storage)
 
@@ -86,3 +91,4 @@ async def process_name(message: types.Message, state: FSMContext):
        await message.answer(f"Sorry, I diden't get that. 😬 Make sure you give me a valid timespan like 08:00-20:00 :")
 
 executor.start_polling(dp)
+
