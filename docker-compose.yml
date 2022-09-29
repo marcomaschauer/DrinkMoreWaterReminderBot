@@ -1,13 +1,14 @@
 version: '3'
 services:
   drinkmorewatermain:
-    build: ./drinkmorewatermain.Dockerfile
+    build:
+      context: .
+      dockerfile: ./drinkmorewatermain.Dockerfile
     volumes:
-      user-config: /usr/drinkmorewaterbot/reminders
+      - "./reminders:/usr/drinkmorewaterbot/reminders:delegated"
   drinkmorewaterrimind:
-    build: ./drinkmorewaterremind.Dockerfile
+    build:      
+      context: .
+      dockerfile: ./drinkmorewaterremind.Dockerfile
     volumes:
-      user-config: /usr/drinkmorewaterbot/reminders
-
-volumes:
-  user-config: ./reminders
+      - "./reminders:/usr/drinkmorewaterbot/reminders:delegated"

@@ -8,7 +8,7 @@ RUN pip install requests
 
 COPY ./main.py ./ 
 COPY ./config.json ./
-#COPY ./reminders ./ 
+COPY ./reminders ./
 
 ENTRYPOINT [ "python3" ]
 
