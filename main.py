@@ -42,7 +42,7 @@ async def process_name(message: types.Message, state: FSMContext):
             await message.answer(f"Your new reminder is set to: {message.text} Minutes 👍")
             await state.finish() #close Form (deletes value from memory)
         elif(int(message.text) > 0):
-            dictionary = {"reminder": message.text, "begintime": "08:00", "endtime": "20:00" }
+            dictionary = {"reminder": message.text, "begintime": "08:00:00", "endtime": "20:00:00" }
             user_config = json.dumps(dictionary, indent=3)
             with open(file_path, "w") as file:
                 file.write(user_config)
