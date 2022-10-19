@@ -51,7 +51,7 @@ async def process_name(message: types.Message, state: FSMContext):
         else:
             await message.answer(f"Error: Interval must be greater than 0")
     except:
-        await message.answer(f"Sorry, I diden't get that. 😬 Make sure you give me a whole Number like 60. This will set a reminder for 60 minutes.")
+        await message.answer(f"Sorry, I didn't get that. 😬 Make sure you give me a whole Number like 60. This will set a reminder for 60 minutes.")
 
 @dp.message_handler(commands=['deletereminder'])
 async def welcome(message: types.Message):
@@ -88,7 +88,7 @@ async def process_name(message: types.Message, state: FSMContext):
         await message.answer(f"Your timespan in which we remind you is set between {begintime} and {endtime} 👍")
         await state.finish()
     except:
-       await message.answer(f"Sorry, I diden't get that. 😬 Make sure you give me a valid timespan like 08:00-20:00 :")
+       await message.answer(f"Sorry, I didn't get that. 😬 Make sure you give me a valid timespan like 08:00-20:00 :")
 
 executor.start_polling(dp)
 
