@@ -8,10 +8,8 @@ RUN pip install datetime
 RUN pip install requests
 RUN date
 
-COPY ./main.py ./ 
-COPY ./config.json ./
-COPY ./reminders ./
+COPY ./main.py . 
+COPY ./config.json .
+COPY ./reminders ./reminders
 
-ENTRYPOINT [ "python3" ]
-
-CMD ["main.py"]
+CMD [ "python3", "/usr/drinkmorewaterbot/main.py" ]
