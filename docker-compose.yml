@@ -1,18 +1,12 @@
-version: '3'
 services:
   drinkmorewatermain:
-    image: "marcomaschauer/drinkmorewaterreminderbot:main"
     restart: always
-    build:
-      context: .
-      dockerfile: ./drinkmorewatermain.Dockerfile
+    image: marcomaschauer/drinkmorewaterreminderbot:latest
     volumes:
       - "./reminders:/usr/drinkmorewaterbot/reminders:delegated"
   drinkmorewaterremind:
-    image: "marcomaschauer/drinkmorewaterreminderbot:remind"
     restart: always
-    build:   
-      context: .
-      dockerfile: ./drinkmorewaterremind.Dockerfile
+    image: marcomaschauer/drinkmorewaterreminderbot:latest
+    command: [ "python3", "reminder.py" ]
     volumes:
       - "./reminders:/usr/drinkmorewaterbot/reminders:delegated"
