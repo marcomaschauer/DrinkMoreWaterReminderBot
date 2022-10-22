@@ -1,15 +1,16 @@
-FROM python
+FROM python:3.10
 WORKDIR /usr/drinkmorewaterbot
 ENV TZ="Europe/Berlin"
 
+COPY requirements.txt .
+
 RUN pip install --upgrade pip
-RUN pip install aiogram
-RUN pip install datetime
-RUN pip install requests
+RUN pip install -r requirements.txt
 RUN date
 
 COPY ./main.py . 
+COPY ./reminder.py . 
 COPY ./config.json .
 COPY ./reminders ./reminders
 
-CMD [ "python3", "/usr/drinkmorewaterbot/main.py" ]
+CMD [ "python3", "main.py" ]
