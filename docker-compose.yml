@@ -1,0 +1,15 @@
+version: "3.7"
+services:
+  drinkmorewatermain:
+    image: marcomaschauer/drinkmorewaterreminderbot:latest
+    volumes:
+      - "./reminders:/usr/drinkmorewaterbot/reminders:delegated"
+    network_mode: "host"
+    restart: always
+  drinkmorewaterremind:
+    image: marcomaschauer/drinkmorewaterreminderbot:latest
+    command: [ "python3", "reminder.py" ]
+    volumes:
+      - "./reminders:/usr/drinkmorewaterbot/reminders:delegated"
+    network_mode: "host"
+    restart: always
