@@ -1,8 +1,8 @@
-FROM python:3.10
+FROM python:3.9
 WORKDIR /usr/drinkmorewaterbot
 ENV TZ="Europe/Berlin"
 
-COPY requirements.txt .
+COPY ./requirements.txt .
 
 RUN pip install --upgrade pip
 RUN pip install -r requirements.txt
