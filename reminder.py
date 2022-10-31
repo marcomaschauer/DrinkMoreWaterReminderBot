@@ -4,7 +4,7 @@ from datetime import datetime, timedelta
 def load_config():
     with open("./config.json", "r") as file:
         config = json.load(file)
-    return config["debug_token"]
+    return config["token"]
 
 def main():
     token=load_config()

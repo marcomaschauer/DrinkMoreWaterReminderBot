@@ -9,7 +9,7 @@ import json
 def load_config():
     with open("./config.json", "r") as file:
         config = json.load(file)
-    return config["debug_token"]
+    return config["token"]
 
 bot = Bot(token=load_config())
 storage = MemoryStorage() #set storage to save data in memory https://stackoverflow.com/questions/69846020/aiogram-waiting-user-reply
