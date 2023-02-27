@@ -1,13 +1,13 @@
-version: "3.7"
 services:
-  drinkmorewatermain:
-    image: marcomaschauer/drinkmorewaterreminderbot:latest
-    volumes:
-      - "./reminders:/usr/drinkmorewaterbot/reminders:delegated"
-    restart: always
-  drinkmorewaterremind:
-    image: marcomaschauer/drinkmorewaterreminderbot:latest
-    command: [ "python3", "reminder.py" ]
-    volumes:
-      - "./reminders:/usr/drinkmorewaterbot/reminders:delegated"
-    restart: always
+  nginx:
+    build:
+      dockerfile: Dockerfile
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.drinkmorewater.rule=Host(`drinkmorewater.marcom.one`)"
+    networks:
+      - "traefik_web"
+
+networks:
+  traefik_web:
+    external: true
